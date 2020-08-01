@@ -37,13 +37,17 @@ Provides helper functions for accessing the local storage.
 ## Events
 
 * Display books on page load
+
     document.addEventListener('DOMContentLoaded', UI.displayBooks);
 
 * Add a book to the UI and local storage
+
     document.querySelector('#libraryForm').addEventListener('submit', UI.addBook);
 
 * Remove a book form the UI and local storage
+
     document.querySelector('#bookList').addEventListener('click', UI.removeBook);
 
 * Filter books on search terms
+
     document.querySelector('#searchFilter').addEventListener('keyup', UI.filterList);
