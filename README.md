@@ -4,6 +4,8 @@ This is a site to allow you to keep track of the books you own.  All data is sav
 
 The main.js has comments for what each function does but below is a list of each class and what it's functions are for.
 
+Live Demo: https://www.thomassapp.com/MyLibrary
+
 ## Classes
 
 ### Book Class
