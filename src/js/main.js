@@ -27,7 +27,7 @@ class UI {
         const bookList = Storage.getBooks();
 
         // Grab the table body with the id of bookList to add the books too.
-        const bookList = document.querySelector('#bookList');
+        const bookListElems = document.querySelector('#bookList');
 
         // iterate through each book and add it to the UI
         bookList.forEach((book) => {            
@@ -72,7 +72,7 @@ class UI {
             row.appendChild(deleteBtn);
 
             // Append the table row to the table body.
-            bookList.appendChild(row);
+            bookListElems.appendChild(row);
         });
 
         // Clear all text fields
@@ -222,6 +222,10 @@ class UI {
         const table = document.querySelector('.table');
         // Insert the alert div before the table
         cont.insertBefore(alertDiv, table);
+
+        if(!isError) {
+            $('#addBookModal').modal('hide')
+        }
 
         // Set a timeout to remove the alert after the specified duration or after 3 seconds if no duration is passed
         setTimeout(() => document.querySelector('.alert').remove(), duration);
