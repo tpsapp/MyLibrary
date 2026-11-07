@@ -16,12 +16,46 @@ class Book {
 
 // UI Class:  Provides helper functions for accessing and controlling the UI.
 // UI.displayBooks = A function to display any books located in the local storage.
+// UI.createBookRow = A function to create and return a table row DOM element for a given book.
 // UI.addBook = A function to add a book to the UI list and local storage.
 // UI.removeBook = A function to remove a book from the UI and local storage.
 // UI.showAlert = A function to show an alert messages in the UI.
 // UI.clearFields = A function to clear all input fields in the UI.
 // UI.filterList = A function to filter the list of books based on the input from the search filter input element.
 class UI {
+    static createBookRow(book) {
+        // Create a table row element for the current book
+        const row = document.createElement('tr');
+
+        // Create a table column element for the book title
+        const title = document.createElement('td');
+        title.innerText = book.title;
+        row.appendChild(title);
+
+        // Create a table column element for the book author
+        const author = document.createElement('td');
+        author.innerText = book.author;
+        row.appendChild(author);
+
+        // Create a table column element for the book isbn
+        const isbn = document.createElement('td');
+        isbn.innerText = book.isbn;
+        row.appendChild(isbn);
+
+        // Create a table column element for the book category
+        const category = document.createElement('td');
+        category.innerText = book.category;
+        row.appendChild(category);
+        
+        // Create a table column element for the delete button
+        const deleteBtn = document.createElement('td');
+        deleteBtn.className = 'd-flex justify-content-end';
+        deleteBtn.innerHTML = '<button type="button" class="btn btn-danger btn-sm delete" aria-label="Delete book">X</button>';
+        row.appendChild(deleteBtn);
+
+        return row;
+    }
+
     static displayBooks() {
         // Get the list of books from local storage
         const bookList = Storage.getBooks();
@@ -31,47 +65,7 @@ class UI {
 
         // iterate through each book and add it to the UI
         bookList.forEach((book) => {            
-            // Create a table row element for the current book
-            const row = document.createElement('tr');
-
-            // Create a table column element for the book title
-            const title = document.createElement('td');
-            // Set the inner text to the title of the book
-            title.innerText = book.title;
-            // Append the table column to the table row
-            row.appendChild(title);
-
-            // Create a table column element for the book author
-            const author = document.createElement('td');
-            // Set the inner text to the author of the book
-            author.innerText = book.author;
-            // Append the table column to the table row
-            row.appendChild(author);
-
-            // Create a table column element for the book isbn
-            const isbn = document.createElement('td');
-            // Set the inner text to the isbn of the book
-            isbn.innerText = book.isbn;
-            // Append the table column to the table row
-            row.appendChild(isbn);
-
-            // Create a table column element for the book category
-            const category = document.createElement('td');
-            // Set the inner text to the category of the book
-            category.innerText = book.category;
-            // Append the table column to the table row
-            row.appendChild(category);
-            
-            // Create a table column element for the delete button
-            const deleteBtn = document.createElement('td');
-            // Set the className of the table row to have it show all elements to the right
-            deleteBtn.className = 'd-flex justify-content-end';
-            // Set the inner HTML to a link that looks like a red button with an X
-            deleteBtn.innerHTML = '<a href="#" class="btn btn-danger btn-sm delete">X</a>';
-            // Append the table column to the table row
-            row.appendChild(deleteBtn);
-
-            // Append the table row to the table body.
+            const row = UI.createBookRow(book);
             bookListElems.appendChild(row);
         });
 
@@ -83,11 +77,11 @@ class UI {
         // Prevent any form submission
         e.preventDefault();
     
-        // Get the title, author, isbn, and category of the book from the respective form elements
-        const title = document.querySelector('#title').value;
-        const author = document.querySelector('#author').value;
-        const isbn = document.querySelector('#isbn').value;
-        const category = document.querySelector('#category').value;
+        // Get the title, author, isbn, and category of the book from the respective form elements (trimmed)
+        const title = document.querySelector('#title').value.trim();
+        const author = document.querySelector('#author').value.trim();
+        const isbn = document.querySelector('#isbn').value.trim();
+        const category = document.querySelector('#category').value.trim();
 
         // Check to make sure each required field has been filled in appropriately
         if (title === '') {
@@ -97,15 +91,15 @@ class UI {
             document.querySelector('#title').focus();
         }
         else if (author === '') {
-            // Show an error alert advising the user to enter a author
-            UI.showAlert('Please enter a author!', true);
+            // Show an error alert advising the user to enter an author
+            UI.showAlert('Please enter an author!', true);
             // Place the focus on the author field to make it easier to fill in the required information
             document.querySelector('#author').focus();
         }
         else if (isbn === '') {
-            // Show an error alert advising the user to enter a author
-            UI.showAlert('Please enter a isbn!', true);
-            // Place the focus on the author field to make it easier to fill in the required information
+            // Show an error alert advising the user to enter an ISBN
+            UI.showAlert('Please enter an ISBN!', true);
+            // Place the focus on the isbn field to make it easier to fill in the required information
             document.querySelector('#isbn').focus();
         }
         else if (category === '') {
@@ -125,48 +119,7 @@ class UI {
             
             // Get the table body that contains the current list of books
             const bookList = document.querySelector('#bookList');
-
-            // Create a table row element for the current book
-            const row = document.createElement('tr');
-
-            // Create a table column element for the book title
-            const titleColumn = document.createElement('td');
-            // Set the inner text to the title of the book
-            titleColumn.innerText = title;
-            // Append the table column to the table row
-            row.appendChild(titleColumn);
-
-            // Create a table column element for the book author
-            const authorColumn = document.createElement('td');
-            // Set the inner text to the author of the book
-            authorColumn.innerText = author;
-            // Append the table column to the table row
-            row.appendChild(authorColumn);
-
-            // Create a table column element for the book isbn
-            const isbnColumn = document.createElement('td');
-            // Set the inner text to the isbn of the book
-            isbnColumn.innerText = isbn;
-            // Append the table column to the table row
-            row.appendChild(isbnColumn);
-
-            // Create a table column element for the book category
-            const categoryColumn = document.createElement('td');
-            // Set the inner text to the category of the book
-            categoryColumn.innerText = category;
-            // Append the table column to the table row
-            row.appendChild(categoryColumn);
-            
-            // Create a table column element for the delete button
-            const deleteBtn = document.createElement('td');
-            // Set the className of the table row to have it show all elements to the right
-            deleteBtn.className = 'd-flex justify-content-end';
-            // Set the inner HTML to a link that looks like a red button with an X
-            deleteBtn.innerHTML = '<a href="#" class="btn btn-danger btn-sm delete">X</a>';
-            // Append the table column to the table row
-            row.appendChild(deleteBtn);
-
-            // Append the table row to the table body.
+            const row = UI.createBookRow(book);
             bookList.appendChild(row);
 
             // Add the book to local storage
@@ -181,15 +134,23 @@ class UI {
     }
 
     static removeBook(e) {
-        // Verify that the target of the click is a delete button by checking its classList
-        if (e.target.classList.contains('delete')) {
-            // Get the name of the current book from the first element of the parent of the targets parent
-            const bookName = e.target.parentNode.parentNode.firstElementChild.textContent;
-            // Get the isbm of the current book from the third element of the parent of the targets parent
-            const isbn = e.target.parentNode.parentNode.children[2].textContent;
+        // Verify that the target of the click is a delete button by checking its classList or closest ancestor
+        const deleteBtn = e.target.closest('.delete');
+        if (deleteBtn) {
+            // Prevent default action (page jumping or form submission)
+            e.preventDefault();
+
+            // Locate the closest table row containing the book
+            const row = deleteBtn.closest('tr') || deleteBtn.parentNode.parentNode;
+            if (!row) return;
+
+            // Get the name of the current book from the first element of the row
+            const bookName = row.firstElementChild ? row.firstElementChild.textContent : '';
+            // Get the isbn of the current book from the third element of the row
+            const isbn = row.children[2] ? row.children[2].textContent : '';
 
             // Remove the current table row from the UI
-            e.target.parentNode.parentNode.remove();
+            row.remove();
 
             // Remove the current book from the local storage based on its isbn
             Storage.removeBook(isbn);
@@ -216,19 +177,34 @@ class UI {
         // Add a text node containing the message for the alert
         alertDiv.appendChild(document.createTextNode(message));
 
-        // Get the main container element from the DOM
-        const cont = document.querySelector('.container');
-        // Get the table that contains the book list from the DOM
-        const table = document.querySelector('.table');
-        // Insert the alert div before the table
-        cont.insertBefore(alertDiv, table);
+        const modal = document.querySelector('#addBookModal');
+        const modalBody = (modal && typeof modal.querySelector === 'function') ? modal.querySelector('.modal-body') : null;
+        const libraryForm = document.querySelector('#libraryForm');
+
+        // If the modal is currently active/open on an error, insert alert inside modal to avoid backdrop occlusion
+        if (isError && modal && modal.classList.contains('show') && modalBody && libraryForm) {
+            modalBody.insertBefore(alertDiv, libraryForm);
+        } else {
+            // Get the main container element from the DOM
+            const cont = document.querySelector('.container');
+            // Get the table that contains the book list from the DOM
+            const table = document.querySelector('.table');
+            if (cont && table) {
+                // Insert the alert div before the table
+                cont.insertBefore(alertDiv, table);
+            }
+        }
 
         if(!isError) {
             $('#addBookModal').modal('hide')
         }
 
-        // Set a timeout to remove the alert after the specified duration or after 3 seconds if no duration is passed
-        setTimeout(() => document.querySelector('.alert').remove(), duration);
+        // Set a timeout to remove the specific alert instance after the specified duration
+        setTimeout(() => {
+            if (alertDiv && alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, duration);
     }
 
     static clearFields() {
@@ -242,19 +218,19 @@ class UI {
     }
 
     static filterList(e) {
-        // Get the text from the search filter input in lowercase
-        const filter = e.target.value.toLowerCase();
+        // Get the text from the search filter input in lowercase and trimmed
+        const filter = e.target.value.toLowerCase().trim();
     
         // Get an array of the table rows containing all the book information
         const bookList = document.querySelectorAll('#bookList tr');
     
         // Iterate through the table row array
         bookList.forEach((book) => {
-            // Get the name of the book from the current row
-            const bookName = book.firstElementChild.textContent;
+            // Get the complete text content of the row
+            const rowText = book.textContent.toLowerCase();
             
-            // Check to see if the search term appears in the book title
-            if (bookName.toLowerCase().indexOf(filter) !== -1) {
+            // Check to see if the search term appears in any column (title, author, isbn, category)
+            if (rowText.includes(filter)) {
                 // Set the display of the table row to make it visible
                 book.style.display = 'table-row';
             }
@@ -262,7 +238,7 @@ class UI {
                 // Set the display of the table row to none so it will not be visible
                 book.style.display = 'none';
             }
-        })
+        });
     }
 }
 
@@ -273,16 +249,21 @@ class UI {
 class Storage {
     static getBooks() {
         // Instantiate a variable to contain the list of books from local storage
-        let bookList;
+        let bookList = [];
+        const storedBooks = localStorage.getItem('bookList');
 
-        // Check to see if the local storage contains a save list of books
-        if (localStorage.getItem('bookList') === null) {
-            // Initialize the booklist array as an empty array since no books are stored
-            bookList = [];
-        }
-        else {
-            // Parse the JSON list of books in local storage and initialize the book list array
-            bookList = JSON.parse(localStorage.getItem('bookList'));
+        // Check to see if the local storage contains a saved list of books
+        if (storedBooks !== null) {
+            try {
+                const parsed = JSON.parse(storedBooks);
+                if (Array.isArray(parsed)) {
+                    bookList = parsed;
+                } else {
+                    console.warn('Storage.getBooks: stored bookList is not an array, falling back to empty list.');
+                }
+            } catch (err) {
+                console.error('Storage.getBooks: failed to parse stored books JSON:', err);
+            }
         }
 
         // Return the book list array
@@ -304,37 +285,19 @@ class Storage {
         // Get the list of books from local storage
         const bookList = Storage.getBooks();
 
-        // Iterate through the array of books
-        bookList.forEach((book, index) => {
-            // Check to see if the current book isbn matches the one to remove
-            if (book.isbn === isbn) {
-                // Remove the book from the book list array by splicing it out
-                bookList.splice(index, 1);
-            }
-        });
+        // Filter out books matching the target ISBN
+        const updatedBookList = bookList.filter((book) => book.isbn !== isbn);
 
         // Write the array back to local storage
-        localStorage.setItem('bookList', JSON.stringify(bookList));
+        localStorage.setItem('bookList', JSON.stringify(updatedBookList));
     }
 
     static bookExists(isbn) {
         // Get the list of books from local storage
         const bookList = Storage.getBooks();
 
-        // Initalize a variable to indicate if the book was found as false by default
-        let result = false;
-
-        // Iterate through the array of books
-        bookList.forEach((book) => {
-            // Check to see if the current book isbn matches the one specified
-            if (book.isbn === isbn) {
-                // Set the result to true since it was found
-                result = true;
-            }
-        });
-
-        // Return the result of the book search
-        return result;
+        // Check if any book matches the specified ISBN with early exit
+        return bookList.some((book) => book.isbn === isbn);
     }
 }
 
